@@ -1,0 +1,20 @@
+#python virtual environment
+dress_venv/
+
+#compiled python files
+__pycache__/
+*.pyc
+
+# # Output images and generated files
+# Outputs/
+# Outputs\
+
+# # Model files (if large or generated)
+# Models/
+
+# # Web scraping cache or logs (if any, adjust as needed)
+# *.log
+
+# # OS-specific files
+# .DS_Store
+# Thumbs.db
