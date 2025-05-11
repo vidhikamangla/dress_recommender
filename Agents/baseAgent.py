@@ -3,7 +3,7 @@ from swarm import Agent,Swarm
 
 class baseAgent():
    
-    def _init_(self, name : str, instructions : str):
+    def __init__(self, name : str, instructions : str):
        self.name = name
        self.instructions = instructions
        self.ollamaClient = OpenAI(base_url='http://localhost:11434/v1',api_key = 'ollama')

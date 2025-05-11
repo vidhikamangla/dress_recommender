@@ -1,10 +1,11 @@
 from .baseAgent import baseAgent
 from .dressTypeAgent import dressType
+# from .scraperAgent import scraperAgent
 
 class orchestratorAgent(baseAgent):
     
-    def _init_(self):
-        super()._init_(name="orchestrator", instructions="""
+    def __init__(self):
+        super().__init__(name="orchestrator", instructions="""
                          
                          
                          
@@ -12,6 +13,7 @@ class orchestratorAgent(baseAgent):
                          """)
         
         self.dressType = dressType()
+        # self.scraper = scraperAgent()
         
     async def run(self,messages:list):
         
@@ -19,8 +21,22 @@ class orchestratorAgent(baseAgent):
         
         dress_types = await self.dressType.run(messages)
         
+        print('DRESS TYPES',dress_types)
+        
+        # scraped_content = await self.scraper.run([{
+        #     "role" :"user",
+        #     "content" : dress_types
+        # }])
+        
+        # print('SCRAPED CONTENT', scraped_content)
+        
         
         return {
             "messages" : messages,
-            "dresstypes" : dress_types,
+            "dresstypes" : dress_types
+            # "scraped_content" : scraped_content
         }
+        
+        
+        
+        
