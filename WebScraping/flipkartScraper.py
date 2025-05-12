@@ -10,7 +10,7 @@ import os
 # print(f"https{gender}vidhika")
 
 #setting up driver and opening chrome 
-def setup_flipkart_driver(text,output_folder,logger,price_query):
+def setup_flipkart_driver(text,output_folder,logger,mini,maxi):
     try:
         main_results = []
         for dress in text["dress_types"]:
@@ -118,5 +118,5 @@ def executeFlipkartBase(text):
     mini=text["price_range"]["min_range"]
     maxi=text["price_range"]["max_range"]
     price_query= f"rf=Price%3A{mini}.0_{maxi}.0_{mini}.0%20TO%20{maxi}.0"
-    _,results=setup_flipkart_driver(text,output_folder,logger,price_query)
+    _,results=setup_flipkart_driver(text,output_folder,logger,mini,maxi)
     return results

@@ -127,7 +127,7 @@ if st.session_state.page == "Show Images":
                 "gender": st.session_state.get("user_gender", ""),
                 "selected_dresses": selected_images
             }
-                    
+
             print('🎀🎀🎀SELECTED IMAGES : ',selected_images)
 
             result2 = asyncio.run(process_secondphase(user_input))

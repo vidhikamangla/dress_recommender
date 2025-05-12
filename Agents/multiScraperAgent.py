@@ -2,6 +2,7 @@ from .baseAgent import baseAgent
 import ast
 from WebScraping.myntraScraper import executeMyntraBase
 from WebScraping.flipkartScraper import executeFlipkartBase
+from WebScraping.tatacliqScraper import executeTatacliqBase
 
 class multiScraperAgent(baseAgent):
     def __init__(self):
@@ -27,9 +28,11 @@ class multiScraperAgent(baseAgent):
         print("💗formed text: ",text)
         flipkart_results=executeFlipkartBase(text)
         myntra_results=executeMyntraBase(text)
+        tata_results=executeTatacliqBase(text)
         
-        print('🛍️MYNTRA. RESULTS',myntra_results)
+        print('MYNTRA. RESULTS',myntra_results)
         print('FLIPKART. RESULTS',flipkart_results)
+        print('TATACLIQ. RESULTS',tata_results)
         
         return(myntra_results)
         # return {
