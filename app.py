@@ -1,6 +1,7 @@
 import streamlit as st
 import asyncio
 from Agents.orchestratorAgent import orchestratorAgent
+from Agents.orchestrator2Agent import orchestrator2Agent
 
 st.set_page_config(page_title="Ask advices", layout="centered")
 
@@ -16,10 +17,10 @@ async def process_query(user_input):
     except Exception as e:
         return {"error": str(e)}
     
-async def process_secondhalf(user_input):
+async def process_secondphase(user_input):
     try:
         orchestrator2 = orchestrator2Agent()
-        return await orchestrator2.run([{"role": "user", "content": user_input}])
+        return await orchestrator2.run(user_input)
         
     except Exception as e:
         return {"error" : str(e)}
@@ -87,7 +88,15 @@ if st.session_state.page == "Ask advices":
                 #we saved the results in session state and r switching to next page to show recommendations
                 st.session_state.page = "Show Images"
                 st.session_state.dress_types = result.get("scraped_content").get("dress_types", [])
-        
+                st.session_state.user_gender = result.get("scraped_content").get("gender", gender)
+                st.session_state.user_min_range = result.get("scraped_content").get("min_range", price_range[0])
+                st.session_state.user_max_range = result.get("scraped_content").get("max_range", price_range[1])
+                st.session_state.dress_types = result.get("scraped_content").get("dress_types", [])
+                
+                # st.session_state.gender = result.get("scraped_content").get("gender", "")
+                # st.session_state.min_range = result.get("scraped_content").get("min_range", 0)
+                # st.session_state.max_range = result.get("scraped_content").get("max_range", 0)
+      
 import os
 if st.session_state.page == "Show Images":
     st.header("🖼️ Select Your Favorite Outfits")
@@ -99,7 +108,7 @@ if st.session_state.page == "Show Images":
                 item_filename = item.strip().lower().replace(' ', '_') + '.jpg'
                 img_path = os.path.join(".", "Outputs", "dress_type_images", item_filename) 
                 item_paths.append((item, img_path))
-            print('ITEM PATHS',item_paths)
+            print('🎀🎀🎀ITEM PATHS',dress_items, "🙏🏻🙏🏻🙏🏻",item_paths)
             if all(os.path.exists(path) for _, path in item_paths):
                 st.markdown(f"**Outfit {idx+1}:**")
                 checked = st.checkbox(
@@ -113,13 +122,17 @@ if st.session_state.page == "Show Images":
                 if checked:
                     selected_images.append([item for item, _ in item_paths])
         if st.button("Send similar outfits"):
-            print('SELECTED IMAGES : ',selected_images)
-            
-            # st.json(selected_images)
-            # st.json(selected_images)
-            result2 = asyncio.run(process_secondhalf(selected_images))
-            # print('RESULT2', result2)
-            st.json(result2["messages"][-1].get("content"))
+            user_input = {
+                "price_range": (st.session_state.get("user_min_range", 0), st.session_state.get("user_max_range", 0)),
+                "gender": st.session_state.get("user_gender", ""),
+                "selected_dresses": selected_images
+            }
+                    
+            print('🎀🎀🎀SELECTED IMAGES : ',selected_images)
+
+            result2 = asyncio.run(process_secondphase(user_input))
+            # print('🎀🎀🎀RESULT2', result2)
+            # st.json(result2["messages"][-1].get("content"))
         
 # result 1 format        
 # {'messages': [
