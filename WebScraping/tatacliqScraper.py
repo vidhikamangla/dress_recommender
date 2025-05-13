@@ -29,13 +29,13 @@ def setup_tatacliq_driver(text,output_folder,logger,gender_query,mini,maxi):
                     chrome_options.add_experimental_option('prefs', prefs)
                     driver = webdriver.Chrome(options=chrome_options)
                     url = build_tatacliq_url(x, mini, maxi, gender_query)
-                    print(f"URL: {url}")
+                    # print(f"URL: {url}")
                     driver.get(url)
                     logger.info(f"Tata CLiQ page loaded for {x}")
-                    results.append(tatacliq_extract(driver))
+                    results.append(tatacliq_extract(driver, logger))
                     main_results.append(results)
-        print(main_results)
-        quit(driver)
+        print("💗results tata: ",main_results)
+        driver.quit()
         return driver, main_results
 
     except Exception as e:

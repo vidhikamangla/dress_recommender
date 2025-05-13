@@ -15,10 +15,10 @@ def setup_driver(text,output_folder,logger,gender_query,price_query):
         main_results=[]
         for dress in text["dress_types"]:
             if type(dress)==list:
-                print("💗checkpoint")
+                # print("💗checkpoint")
                 for i,x in enumerate(dress):
                     results=[]
-                    print(f"dress {i} in DRESS: ",x)
+                    # print(f"dress {i} in DRESS: ",x)
                     chrome_options = webdriver.ChromeOptions()
                     prefs = {'download.default_directory' : output_folder,
                             "download.prompt_for_download": False,
@@ -30,7 +30,8 @@ def setup_driver(text,output_folder,logger,gender_query,price_query):
                     logger.info(f"Page loaded")
                     results.append(myntra_extract(driver,logger))
                     main_results.append(results)
-        # print("💗results: ",main_results)
+        print("💗results myntra: ",main_results)
+        driver.quit()
         return driver,main_results
     
     except Exception as e:
@@ -71,7 +72,7 @@ def myntra_extract(driver,logger):
                 continue
         
         logger.info(f"Successfully extracted {len(results)} products")
-        print("💗checkpoint end for one dress")
+        # print("💗checkpoint end for one dress")
         return results
         
         

@@ -4,6 +4,51 @@ from Agents.orchestratorAgent import orchestratorAgent
 from Agents.orchestrator2Agent import orchestrator2Agent
 
 st.set_page_config(page_title="Ask advices", layout="centered")
+# Custom CSS styles
+st.markdown("""
+    <style>
+    /* Sidebar background */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+        color: #000000;
+    }
+
+    /* Sidebar title */
+    .sidebar .css-1d391kg {
+        font-size: 24px;
+        color: #5B2C6F;
+        font-weight: bold;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        background-color: #FF69B4;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .stButton > button:hover {
+        background-color: #FF1493;
+        color: #fff;
+    }
+
+    /* Input boxes */
+    .stTextInput > div > div > input {
+        background-color: #F0F8FF;
+        border: 2px solid #87CEFA;
+        border-radius: 8px;
+    }
+
+    .stSlider > div > div {
+        background-color: #E6E6FA;
+        border-radius: 10px;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 #we are setting up the page navigation as there are multiple lages
 if "page" not in st.session_state:
@@ -131,6 +176,22 @@ if st.session_state.page == "Show Images":
             print('🎀🎀🎀SELECTED IMAGES : ',selected_images)
 
             result2 = asyncio.run(process_secondphase(user_input))
+            print("💗💗result2💗💗",result2)
+            st.json(result2)
+            # if "error" in result2:
+            #     st.error(result2["error"])
+            # else:
+            #     st.success("Here are some outfit suggestions based on your choices:")
+
+            #     suggestions = result2.get("suggestions", [])
+            #     if suggestions:
+            #         for idx, suggestion in enumerate(suggestions, 1):
+            #             st.markdown(f"### Suggestion {idx}")
+            #             for key, value in suggestion.items():
+            #                 st.write(f"{key.capitalize()}:** {value}")
+            #     else:
+            #         st.info("No specific suggestions were returned.")
+            
             # print('🎀🎀🎀RESULT2', result2)
             # st.json(result2["messages"][-1].get("content"))
         

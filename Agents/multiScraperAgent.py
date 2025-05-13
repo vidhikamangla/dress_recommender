@@ -25,14 +25,18 @@ class multiScraperAgent(baseAgent):
             },
             "gender": gender
         }
-        # print("💗formed text: ",text)
+        print("💗formed text: ",text)
         flipkart_results=executeFlipkartBase(text)
         myntra_results=executeMyntraBase(text)
         tata_results=executeTatacliqBase(text)
         
+        print("---------------------------------------------")
+        print("💗getting the results: ")
+        print("---------------------------------------------")
         print('🛍️MYNTRA. RESULTS',myntra_results)
         print('🛍️FLIPKART. RESULTS',flipkart_results)
         print('🛍️TATACLIQ. RESULTS',tata_results)
+        print("got the results: ",text)
         
         # return(myntra_results)
         return({

@@ -32,7 +32,8 @@ def setup_flipkart_driver(text,output_folder,logger,mini,maxi):
                     logger.info(f"Flipkart page loaded for {x}")
                     results.append(flipkart_extract(driver,logger))
                     main_results.append(results)
-        print(main_results)
+        print("💗results flip: ",main_results)
+        driver.quit()
         return driver, main_results
 
     except Exception as e:
@@ -41,7 +42,7 @@ def setup_flipkart_driver(text,output_folder,logger,mini,maxi):
 
 #extracting the dresses from flipkart this time
 def flipkart_extract(driver,logger):
-    print("💗checkpoint 2 💗")
+    # print("💗checkpoint 2 💗")
     try:
         # Wait for product containers to load
         # print("1 🥰")
