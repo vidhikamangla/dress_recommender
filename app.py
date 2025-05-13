@@ -2,6 +2,9 @@ import streamlit as st
 import asyncio
 from Agents.orchestratorAgent import orchestratorAgent
 from Agents.orchestrator2Agent import orchestrator2Agent
+import requests
+from io import BytesIO
+from PIL import Image
 
 st.set_page_config(page_title="Ask advices", layout="centered")
 # Custom CSS styles
@@ -49,7 +52,66 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+def display_product_card(product):
+    """Display a product card with image and details"""
+    with st.container():
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            if product.get('image_url'):
+                try:
+                    response = requests.get(product['image_url'])
+                    img = Image.open(BytesIO(response.content))
+                    st.image(img, use_column_width=True)
+                except:
+                    st.error("Could not load image")
 
+        with col2:
+            st.subheader(product.get('name', 'Product Name'))
+            if product.get('description'):
+                st.caption(product['description'])
+            
+            # Price and Rating
+            price_rating = f"**Price:** {product.get('price', 'N/A')}"
+            if product.get('rating'):
+                price_rating += f" | **Rating:** {product.get('rating')}"
+            st.markdown(price_rating)
+            
+            # Product Link
+            if product.get('url'):
+                st.markdown(f"[View Product ↗]({product['url']})", unsafe_allow_html=True)
+            
+            # Reviews
+            if product.get('reviews'):
+                with st.expander("📝 Reviews (Click to Expand)"):
+                    for review in product['reviews']:
+                        if review.strip() and review != "no review available":
+                            st.markdown(f"<div class='review-box'>🌟 {review}</div>", unsafe_allow_html=True)
+
+        st.markdown("---")
+
+def display_retailer_section(retailer_name, products):
+    """Display a section for a retailer's products"""
+    if not products:
+        return
+    
+    with st.container():
+        st.markdown(f"<div class='retailer-section'>", unsafe_allow_html=True)
+        st.header(f"🏬 {retailer_name.capitalize()} Results")
+        
+        # Create columns for product cards
+        cols = st.columns(3)
+        product_count = 0
+        
+        for product_group in products:
+            for product in product_group:
+                if product_count >= 3:  # Only show 3 products per row
+                    break
+                with cols[product_count % 3]:
+                    display_product_card(product)
+                product_count += 1
+        
+        st.markdown("</div>", unsafe_allow_html=True)
+        
 #we are setting up the page navigation as there are multiple lages
 if "page" not in st.session_state:
     st.session_state.page = "Ask advices"
@@ -176,8 +238,23 @@ if st.session_state.page == "Show Images":
             print('🎀🎀🎀SELECTED IMAGES : ',selected_images)
 
             result2 = asyncio.run(process_secondphase(user_input))
+            
             print("💗💗result2💗💗",result2)
             st.json(result2)
+            # Display results for each retailer
+            if 'myntra' in result2['messages']:
+                display_retailer_section("Myntra", result2['messages']['myntra'])
+            
+            if 'flipkart' in result2['messages']:
+                display_retailer_section("Flipkart", result2['messages']['flipkart'])
+            
+            if 'tata' in result2['messages']:
+                display_retailer_section("Tata CLiQ", result2['messages']['tata'])
+            
+            if st.button("Back to Search"):
+                st.session_state.page = "Ask advices"
+        else:
+            st.warning("No results to display. Please perform a search first.")
             # if "error" in result2:
             #     st.error(result2["error"])
             # else:

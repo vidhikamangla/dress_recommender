@@ -199,7 +199,10 @@ def combine_all(scraped_data):
                     batch_reviews.append({
                         "url": url,
                         "review": review.get("review", []),
-                        "rating": review.get("rating", "no rating available")
+                        "rating": review.get("rating", "no rating available"),
+                        "name" : item[0].get("name"),
+                        "description" : item[0].get("description"),
+                        "price": item[0].get("price")
                     })
 
             platform_reviews.append(batch_reviews)
