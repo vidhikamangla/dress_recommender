@@ -80,12 +80,10 @@ def tatacliq_extract(driver,logger):
                 continue
         logger.info(f"Successfully extracted {len(results)} Tata CLiQ products")
         return results
+    
     except Exception as e:
         logger.error(f"Error in tatacliq_extract: {e}")
         return []
-
-driver, results = setup_tatacliq_driver()
-print("🥰🥰🥰",results)
 
 def executeTatacliqBase(text):
     #setting up logging

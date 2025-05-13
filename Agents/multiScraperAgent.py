@@ -11,7 +11,7 @@ class multiScraperAgent(baseAgent):
  
     async def run(self,messages : list):
         content = messages
-        print("💗 rcd msgs: ",messages)
+        # print("💗 rcd msgs: ",messages)
         min_range = content["price_range"][0]
         max_range = content["price_range"][1]
         gender = content["gender"]
@@ -25,22 +25,29 @@ class multiScraperAgent(baseAgent):
             },
             "gender": gender
         }
-        print("💗formed text: ",text)
+        # print("💗formed text: ",text)
         flipkart_results=executeFlipkartBase(text)
         myntra_results=executeMyntraBase(text)
         tata_results=executeTatacliqBase(text)
         
-        print('MYNTRA. RESULTS',myntra_results)
-        print('FLIPKART. RESULTS',flipkart_results)
-        print('TATACLIQ. RESULTS',tata_results)
+        print('🛍️MYNTRA. RESULTS',myntra_results)
+        print('🛍️FLIPKART. RESULTS',flipkart_results)
+        print('🛍️TATACLIQ. RESULTS',tata_results)
         
-        return(myntra_results)
+        # return(myntra_results)
+        return({
+            "myntra" : myntra_results,
+            "flipkart" : flipkart_results,
+            "tata" : tata_results
+            
+        })
         # return {
         #     "dress_types" : selected_list,
         #     "gender" : gender,
         #     "min_range" : min_range,
         #     "max_range" : max_range
         # }
+        
         
         
 
