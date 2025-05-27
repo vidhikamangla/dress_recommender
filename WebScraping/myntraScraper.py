@@ -99,3 +99,4 @@ def executeMyntraBase(text):
     price_query= f"rf=Price%3A{mini}.0_{maxi}.0_{mini}.0%20TO%20{maxi}.0"
     _,results=setup_driver(text,output_folder,logger,gender_query,price_query)
     return results
+ 
